@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: velero-dr-service
+  namespace: velero-lab
+spec:
+  selector:
+    app: velero-dr-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP

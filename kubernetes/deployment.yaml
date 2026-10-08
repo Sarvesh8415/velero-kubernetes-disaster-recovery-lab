@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: velero-dr-app
+  namespace: velero-lab
+  labels:
+    app: velero-dr-app
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: velero-dr-app
+
+  template:
+    metadata:
+      labels:
+        app: velero-dr-app
+
+    spec:
+      containers:
+        - name: velero-dr-container
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+
+          env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: APP_NAME
+
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: APP_ENV
+
+            - name: APP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: APP_USERNAME
+
+          volumeMounts:
+            - name: velero-dr-storage
+              mountPath: /data
+
+      volumes:
+        - name: velero-dr-storage
+          persistentVolumeClaim:
+            claimName: app-data-pvc

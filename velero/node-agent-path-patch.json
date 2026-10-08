@@ -1,0 +1,12 @@
+[
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/volumes/0/hostPath/path",
+    "value": "/var/lib/kubelet/pods"
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/volumes/1/hostPath/path",
+    "value": "/var/lib/kubelet/plugins"
+  }
+]
